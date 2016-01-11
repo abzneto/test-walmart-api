@@ -1,0 +1,168 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Walmart | Sistema de Entregas 1.0</title>
+
+		<link href="http://fonts.googleapis.com/css?family=Roboto:400,400italic,300,300italic,700,700italic" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="assets/stylesheet/style.css">
+    </head>
+  
+    <body>
+	
+
+<div class="breadcrumb">
+			<a href="#">Walmart /</a>
+			<h2>Sistema de Entregas 1.0</h2>
+		</div>
+		<section class="content container">
+			<div  ng-app="Walmart" ng-controller="Maps">
+		<section class="content container">
+			<h4>Mapas</h4>		
+				<div class="row">				
+				<p class="span10">				
+				<select id="mapId" ng-model="mapId" ng-change="loadRoutes(mapId)" ng-init="mapId || mapas[0]" ng-options="mapa.id as mapa.name for mapa in mapas"></select>
+				</p>					
+					<p class="span2">
+					<a href="javascript:void(0)" ng-click="removeMap(mapId)" class="btn danger">Excluir</a>
+					</p>
+					</div>
+					<div class="row">
+					<p>
+					<a href="javascript:void(0)" ng-click="addMap()" id="addMap" class="btn">Adicionar</a>
+					</p>
+					</div>
+					<div id="buttonAddMap" style="display:none">
+					<div class="row">
+						<p>
+							<label>Nome do Mapa:</label>
+						<input ng-model="map.name" autofocus type="text">
+						</p>
+					</div>
+					
+					
+				</div>
+		</section>
+		
+		
+		<section id="sectionRoute" style="display:none" class="content container">
+			<h4>Rotas</h4>
+			
+			
+					
+					
+					
+			<div class="row">
+						<p>
+							<a href="javascript:void(0)" ng-click="addRoute()" class="btn">Adicionar rota</a>
+						</p>
+					</div>
+					<div ng-repeat="route in routes" class="well mgbttn">
+						<div class="row">
+				<p class="row span3">				
+						<label>Ponto de Origem:</label>
+						<input id="pointOrigin" ng-model="route.origin"  type="text">
+					</p>
+					<p class="row span3">
+						<label>Ponto de Destino:</label>
+						<input id="pointDestiny" ng-model="route.destination"  type="text">
+					</p>
+					<p class="row span4">
+						<label>Distância:</label>
+						<input id="distanceRange" ng-model="route.distance" type="text">
+					</p>
+					<p class="row span2">
+					<label>&nbsp;</label>
+								<a href="javascript:void(0)" class="btn danger" ng-click="removeRoute($index)" >Excluir rota</a>
+							</p>
+					</div>
+					</div>
+			<footer class="button_group">
+					<p class="pull-right">
+						<a href="javascript:void(0)" ng-click="save()" class="btn confirm big">Salvar</a>
+					</p>
+					
+				</footer>
+
+			
+		</section>
+		
+		<section id="sectionCalc" style="display:none" class="content container">
+			<h4>Calcular Entrega</h4>
+<div class="well mgbttn">
+			
+				<div class="row">
+					<p class="row span6">
+						<label>Autonomia(km/l):</label>
+						<input ng-model="autonomy" type="text">
+					</p>
+
+					<p class="row span6">
+						<label>Valor litro:</label>
+						<input ng-model="litterPrice" type="text">
+					</p>
+</div>
+					
+			<div class="row">
+				<p class="row span6">
+						<label>&nbsp;&nbsp;&nbsp;&nbsp;Ponto de Origem:</label>
+						<input ng-model="origin" type="text">
+					</p>
+					<p class="row span6">
+						<label>Ponto de Destino:</label>
+						<input ng-model="destination" type="text">
+					</p>
+
+					</div>
+
+					
+				</div>
+
+				<footer class="button_group">
+					<p class="pull-right">
+						<a href="javascript:void(0)" ng-click="routeCalculate()" class="btn confirm big">Calcular</a>
+					</p>
+					
+				</footer>
+			
+			
+		</section>
+		
+		<section id="sectionResult" style="display:none" class="content container">
+			<h4>Resultado</h4>
+
+<div class="table-responsive">
+  				<table class="table table-color-orange">
+    				<thead>
+                    	<tr>
+                        	
+                            <th>Caminho</th>
+                            <th>Custo R$</th>                          
+                        </tr>
+                    </thead>
+                   
+                    <tbody>
+                   
+                    <tr>
+                        
+                            <td><input ng-model="path" disabled type="text"></td>
+                            <td><input ng-model="cost" disabled type="text"></td>
+                             
+                        </tr>
+                         </tbody>
+                   
+  				</table>
+  			
+			</div>
+		</section>
+		</div>
+		</section>
+
+        <script src="assets/scripts/jquery.js"></script>
+		<script src="assets/scripts/plugins/angular.js"></script>
+		<script src="assets/scripts/walmartLIB.js"></script>
+        <script src="assets/scripts/maps.js"></script>
+        
+    </body>
+</html>

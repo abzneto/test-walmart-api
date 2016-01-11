@@ -1,0 +1,24 @@
+CREATE TABLE public.Map
+(
+	id INT NOT NULL PRIMARY KEY,
+	name VARCHAR(200) NOT NULL,
+	creationDate TIMESTAMP NOT NULL
+);
+
+CREATE SEQUENCE public.seq_map INCREMENT 1;
+
+CREATE TABLE public.Route
+(
+	id INT NOT NULL PRIMARY KEY,
+	origin VARCHAR(1) NOT NULL,
+	destination VARCHAR(1) NOT NULL,
+	distance FLOAT NOT NULL,
+	mapId INT NOT NULL,
+	creationDate TIMESTAMP NOT NULL
+);
+
+CREATE SEQUENCE public.seq_route INCREMENT 1;
+
+ALTER TABLE public.Route ADD CONSTRAINT FK_Route_Map FOREIGN KEY(mapId) REFERENCES public.Map(id);
+
+
