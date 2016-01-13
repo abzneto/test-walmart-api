@@ -1,7 +1,9 @@
 package br.com.walmart.application.controller;
 
 import static br.com.caelum.vraptor.view.Results.json;
-import br.com.caelum.vraptor.Consumes;
+
+import java.util.List;
+
 import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
@@ -10,6 +12,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.walmart.application.representation.RouteResultInformation;
 import br.com.walmart.domain.model.map.Map;
 import br.com.walmart.domain.model.map.MapRepository;
+import br.com.walmart.domain.model.route.Route;
 import br.com.walmart.domain.model.route.RouteRepository;
 import br.com.walmart.domain.services.route.RouteCalculator;
 
@@ -62,6 +65,14 @@ public class MapController {
 		if (map == null) {
 			result.notFound();
 			return;
+		}
+		
+		List<Route> routes = routeRepository.loadByMap(map);
+		
+		if (routes != null && !routes.isEmpty()) {
+			for (Route route : routes) {
+				routeRepository.remove(route);
+			}
 		}
 
 		mapRepository.remove(map);		
