@@ -55,7 +55,8 @@ walmart.hostWebServices = '';
             		}
             	}
 
-            	$scope.routes = walmart.loadJSON('route/' + $scope.map.id).routes;
+        		$scope.mapId  = mapId;
+            	$scope.routes = walmart.loadJSON('route/' + $scope.mapId).routes;
         	} else {
         		$("#sectionResult").hide();
 				$("#sectionCalc").hide();
@@ -63,15 +64,45 @@ walmart.hostWebServices = '';
         	}     	
         };
         
-        $scope.routeCalculate = function() { 
-        	$scope.save();
-        	
-        	var results = walmart.loadJSON('/map/' + $scope.map.id + '/calculate?origin=' + $scope.origin + '&destination=' + $scope.destination + '&autonomy=' + $scope.autonomy + '&valueLiter=' + $scope.litterPrice).results;
-        	
-        	$scope.path = results.path;
-        	$scope.cost = results.cost;
-        	
-        	$("#sectionResult").show();
+        $scope.save = function() { 
+        	walmart.postJSON( '/map?mapId=' + $scope.mapId + '&mapName=' + $scope.map.name,
+    			{
+                success: function(response) {
+                	$scope.mapId = response.mapId;
+                	
+                	walmart.postJSON( '/route?mapId=' + $scope.mapId,
+                    {
+                        data: $scope.routes,
+                        
+                        success: function(response) {
+                        	$scope.loadRoutes($scope.mapId);   
+                        	
+                        	var results = walmart.loadJSON('/map/' + $scope.mapId + '/calculate?origin=' + $scope.origin + '&destination=' + $scope.destination + '&autonomy=' + $scope.autonomy + '&valueLiter=' + $scope.litterPrice).results;
+                        	
+                        	if (!results.path || results.path == '') {
+                        		alert("Não foi possível calcular o caminho com os parâmetros informados.");
+                        		
+                        		$("#sectionResult").hide();
+                        	} else {
+                        		$("#sectionResult").show();
+                        		$("#resultPath").val( results.path );
+                        		$("#resultCost").val( results.cost );
+                        		$('html, body').animate({ 'scrollTop' : $(document).height() }, 1);                        		
+                        	}
+                        },
+                        
+                        isRoutes : true,                
+
+                        error: function(xhr, status) {
+                            alert( 'Não foi possível salvar os dados!');
+                        }
+                    });
+                },
+
+                error: function(xhr, status) {
+                    alert( 'Não foi possível adicionar o mapa.');
+                }
+            });
         };
         
         $scope.addMap = function(mapId) { 
@@ -102,35 +133,7 @@ walmart.hostWebServices = '';
                     location.reload();
                 }
         	}            
-        };
-        
-        $scope.saveMap = function() {
-        	walmart.postJSON( '/map?mapId=' + $scope.mapId + '&mapName=' + $scope.map.name,
-    			{
-                success: function(response) {
-                	$scope.mapId = response.mapId;      	        
-                },
-
-                error: function(xhr, status) {
-                    alert( 'Não foi possível adicionar o mapa.');
-                }
-            });
-        };
-        
-        $scope.save = function() {
-        	$scope.saveMap();
-
-        	walmart.postJSON( '/route?mapId=' + $scope.mapId,
-            {
-                data: $scope.routes,
-                
-                isRoutes : true,                
-
-                error: function(xhr, status) {
-                    alert( 'Não foi possível salvar os dados!');
-                }
-            });
-        };
+        };    
         
         $scope.removeRoute = function(index) {     
         	var route = $scope.routes[index];

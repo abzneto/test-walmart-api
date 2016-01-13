@@ -37,7 +37,7 @@
 					<div class="row">
 						<p>
 							<label>Nome do Mapa:</label>
-						<input ng-model="map.name" autofocus type="text">
+						<input ng-model="map.name" style="text-transform:uppercase" autofocus type="text">
 						</p>
 					</div>
 					
@@ -60,17 +60,18 @@
 					</div>
 					<div ng-repeat="route in routes" class="well mgbttn">
 						<div class="row">
+						<input id="routeId" ng-model="route.id"  type="hidden">
 				<p class="row span3">				
 						<label>Ponto de Origem:</label>
-						<input id="pointOrigin" ng-model="route.origin"  type="text">
+						<input id="pointOrigin" onkeyup="this.value=this.value.replace(/[^A-Za-z\s]/,'');" ng-model="route.origin" style="text-transform:uppercase" maxlength="1" type="text">
 					</p>
 					<p class="row span3">
 						<label>Ponto de Destino:</label>
-						<input id="pointDestiny" ng-model="route.destination"  type="text">
+						<input id="pointDestiny" onkeyup="this.value=this.value.replace(/[^A-Za-z\s]/,'');" ng-model="route.destination" style="text-transform:uppercase" maxlength="1" type="text">
 					</p>
 					<p class="row span4">
 						<label>Distância:</label>
-						<input id="distanceRange" ng-model="route.distance" type="text">
+						<input id="distanceRange" ng-model="route.distance" type="text" onkeyup="this.value=this.value.replace(/[^\d.]/,'');this.value=walmart.formatNumber(this.value);">
 					</p>
 					<p class="row span2">
 					<label>&nbsp;</label>
@@ -78,12 +79,7 @@
 							</p>
 					</div>
 					</div>
-			<footer class="button_group">
-					<p class="pull-right">
-						<a href="javascript:void(0)" ng-click="save()" class="btn confirm big">Salvar</a>
-					</p>
-					
-				</footer>
+			
 
 			
 		</section>
@@ -95,23 +91,23 @@
 				<div class="row">
 					<p class="row span6">
 						<label>Autonomia(km/l):</label>
-						<input ng-model="autonomy" type="text">
+						<input ng-model="autonomy" onkeyup="this.value=this.value.replace(/[^\d.]/,'');this.value=walmart.formatNumber(this.value);" type="text">
 					</p>
 
 					<p class="row span6">
 						<label>Valor litro:</label>
-						<input ng-model="litterPrice" type="text">
+						<input ng-model="litterPrice" onkeyup="this.value=this.value.replace(/[^\d.]/,'');this.value=walmart.formatNumber(this.value);" type="text">
 					</p>
 </div>
 					
 			<div class="row">
 				<p class="row span6">
-						<label>&nbsp;&nbsp;&nbsp;&nbsp;Ponto de Origem:</label>
-						<input ng-model="origin" type="text">
+						<label>&nbsp;Ponto de Origem:</label>
+						<input ng-model="origin" maxlength="1" onkeyup="this.value=this.value.replace(/[^A-Za-z\s]/,'');" style="text-transform:uppercase" type="text">
 					</p>
 					<p class="row span6">
 						<label>Ponto de Destino:</label>
-						<input ng-model="destination" type="text">
+						<input ng-model="destination" maxlength="1" onkeyup="this.value=this.value.replace(/[^A-Za-z\s]/,'');" style="text-transform:uppercase" type="text">
 					</p>
 
 					</div>
@@ -121,7 +117,7 @@
 
 				<footer class="button_group">
 					<p class="pull-right">
-						<a href="javascript:void(0)" ng-click="routeCalculate()" class="btn confirm big">Calcular</a>
+						<a href="javascript:void(0)" ng-click="save()" class="btn confirm big">Confirmar</a>
 					</p>
 					
 				</footer>
@@ -146,8 +142,8 @@
                    
                     <tr>
                         
-                            <td><input ng-model="path" disabled type="text"></td>
-                            <td><input ng-model="cost" disabled type="text"></td>
+                            <td><input ng-model="path" id="resultPath" disabled type="text"></td>
+                            <td><input ng-model="cost" id="resultCost" disabled type="text"></td>
                              
                         </tr>
                          </tbody>

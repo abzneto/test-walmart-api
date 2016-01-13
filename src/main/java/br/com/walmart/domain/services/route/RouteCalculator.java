@@ -1,5 +1,6 @@
 package br.com.walmart.domain.services.route;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +32,15 @@ public class RouteCalculator {
 		if (dijkstra.sucess()) {
 			graph.build(destination);
 
-			return new RouteResultInformation( graph.getPath(), costCalculator(graph.getDistance(), autonomy, valueLiter) );
+			return new RouteResultInformation( graph.getPath(), costCalculatorFormatted(graph.getDistance(), autonomy, valueLiter) );
 		}      
 
 		return null;
 	}
 
-	private double costCalculator(double distance, double autonomy, double valueLiter) {
-		return ( distance / autonomy ) * valueLiter;
+	private String costCalculatorFormatted(double distance, double autonomy, double valueLiter) {
+		double cost = ( distance / autonomy ) * valueLiter;
+		
+		return new DecimalFormat("#.00").format(cost);
 	}
 }

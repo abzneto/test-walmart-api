@@ -26,7 +26,7 @@
             xhr.setRequestHeader('Accept', 'application/json');
 
             if (options.data) {
-                var string = options.isRoutes ? JSON.stringify("{\"routes\": " + options.data + " }") : JSON.stringify( options.data );
+                var string = options.isRoutes ? "{\"routes\": " + JSON.stringify( options.data ) + " }" : JSON.stringify( options.data );
 
                 xhr.setRequestHeader('Content-type', 'application/json');
                 xhr.setRequestHeader('Content-Length', string.length);
@@ -142,27 +142,25 @@
 
             return jqXHR;
         },
-
-        uploadPhoto: function(settings) {
-            var xhr = walmart.createRequest('POST', settings.url, {async: settings.async});
-
-            xhr.onload = function () {
-                if (settings.success && angular.isFunction(settings.success)) {
-                    var response = angular.fromJson(this.responseText);
-
-                    settings.success(response.photoUrl);
+        
+        formatNumber: function(num) {
+            var str = num.toString().replace("$", ""), parts = false, output = [], i = 1, formatted = null;
+            if(str.indexOf(".") > 0) {
+                parts = str.split(".");
+                str = parts[0];
+            }
+            str = str.split("").reverse();
+            for(var j = 0, len = str.length; j < len; j++) {
+                if(str[j] != ".") {
+                    output.push(str[j]);
+                    if(i%3 == 0 && j < (len - 1)) {
+                        //output.push(",");
+                    }
+                    i++;
                 }
-            };
-
-            xhr.onerror = function () {
-                settings.error(xhr, xhr.status);
-            };
-
-            var formData = new FormData();
-
-            formData.append('photo', settings.files[0]);
-
-            xhr.send(formData);
+            }
+            formatted = output.reverse().join("");
+            return( formatted + ((parts) ? "." + parts[1].substr(0, 2) : ""));
         }
     };
 }());

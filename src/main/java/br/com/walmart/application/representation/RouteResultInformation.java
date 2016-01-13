@@ -2,9 +2,9 @@ package br.com.walmart.application.representation;
 
 public class RouteResultInformation {
 	private String path;
-	private double cost;
+	private String cost;
 
-	public RouteResultInformation(String path, double cost) {
+	public RouteResultInformation(String path, String cost) {
 		this.path = path;
 		this.cost = cost;
 	}
@@ -13,7 +13,7 @@ public class RouteResultInformation {
 		return path;
 	}
 
-	public double getCost() {
+	public String getCost() {
 		return cost;
 	}
 }

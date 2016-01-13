@@ -51,28 +51,28 @@ public class RouteController {
 			return;
 		}
 
-//		for ( RouteInformation routeInfo : routes ) {
-//			Route route = routeRepository.loadById(routeInfo.getId());
-//			
-//			boolean isNEW = false;
-//			
-//			if (route == null) {
-//				route = new Route();
-//				
-//				isNEW = true;
-//			}
-//			
-//			route.setMap(map);
-//			route.setDestination(routeInfo.getDestination());
-//			route.setDistance(routeInfo.getDistance());
-//			route.setOrigin(routeInfo.getOrigin());
-//			
-//			if (isNEW) {
-//				routeRepository.add(route);
-//			} else {
-//				routeRepository.update(route);
-//			}
-//		}		
+		for ( RouteInformation routeInfo : routes ) {
+			Route route = null;
+			
+			boolean isNEW = (routeInfo.getId() == null);
+			
+			if (isNEW) {
+				route = new Route();
+			} else {
+				route = routeRepository.loadById(routeInfo.getId());
+			}
+			
+			route.setMap(map);
+			route.setDestination(routeInfo.getDestination());
+			route.setDistance(routeInfo.getDistance());
+			route.setOrigin(routeInfo.getOrigin());
+			
+			if (isNEW) {
+				routeRepository.add(route);
+			} else {
+				routeRepository.update(route);
+			}
+		}		
 
 		result.use(json()).from(true, "success").recursive().serialize();
 	}
