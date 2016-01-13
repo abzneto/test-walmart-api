@@ -1,6 +1,5 @@
 package br.com.walmart.domain.services.route;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,32 +14,38 @@ import br.com.walmart.domain.model.route.Route;
 @Component
 @RequestScoped
 public class RouteCalculator {
-
+	
+	protected RouteCalculator() {}
+	
 	public RouteResultInformation calculate(List<Route> routes, String origin, String destination, double autonomy, double valueLiter) {		
 		List<Edge> edges = new ArrayList<Edge>();
 
-		for (Route route : routes) {
-			edges.add( new Edge( route.getOrigin(), route.getDestination(), route.getDistance() ) );
+		if ( isNotEmpty(origin) && isNotEmpty(destination) && routes != null && !routes.isEmpty() && autonomy > 0d && valueLiter > 0d ) {
+			for (Route route : routes) {
+				edges.add( new Edge( route.getOrigin(), route.getDestination(), route.getDistance() ) );
+			}
+	
+			Graph graph = new Graph(edges);
+	
+			Dijkstra dijkstra = new Dijkstra();
+	
+			dijkstra.process(graph.getGraph(),origin);
+	
+			if (dijkstra.sucess()) {
+				graph.build(destination);
+				
+				return new RouteResultInformation( graph.getPath(), costCalculator(graph.getDistance(), autonomy, valueLiter) );
+			}     
 		}
-
-		Graph graph = new Graph(edges);
-
-		Dijkstra dijkstra = new Dijkstra();
-
-		dijkstra.process(graph.getGraph(),origin);
-
-		if (dijkstra.sucess()) {
-			graph.build(destination);
-
-			return new RouteResultInformation( graph.getPath(), costCalculatorFormatted(graph.getDistance(), autonomy, valueLiter) );
-		}      
 
 		return null;
 	}
-
-	private String costCalculatorFormatted(double distance, double autonomy, double valueLiter) {
-		double cost = ( distance / autonomy ) * valueLiter;
-		
-		return new DecimalFormat("#.00").format(cost);
+	
+	private double costCalculator(double distance, double autonomy, double valueLiter) {
+		return ( distance / autonomy ) * valueLiter;
+	}
+	
+	private boolean isNotEmpty( String param ) {
+		return param != null && !param.trim().equals("");
 	}
 }

@@ -65,6 +65,10 @@ walmart.hostWebServices = '';
         };
         
         $scope.save = function() { 
+        	if (!$scope.map.name || $scope.map.name.trim() == '') {
+        		alert('Favor informar o nome do mapa!!!');
+        		return false;
+        	}
         	walmart.postJSON( '/map?mapId=' + $scope.mapId + '&mapName=' + $scope.map.name,
     			{
                 success: function(response) {
@@ -79,8 +83,8 @@ walmart.hostWebServices = '';
                         	
                         	var results = walmart.loadJSON('/map/' + $scope.mapId + '/calculate?origin=' + $scope.origin + '&destination=' + $scope.destination + '&autonomy=' + $scope.autonomy + '&valueLiter=' + $scope.litterPrice).results;
                         	
-                        	if (!results.path || results.path == '') {
-                        		alert("Não foi possível calcular o caminho com os parâmetros informados.");
+                        	if (!results || !results.path || results.path == '') {
+                        		alert("Não foi possível calcular com os parâmetros informados.");
                         		
                         		$("#sectionResult").hide();
                         	} else {
