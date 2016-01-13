@@ -84,4 +84,9 @@ public class RouteCalculatorTest {
 	public void shouldNotCalculateCostByZeroValueLiter() {		
 		assertEquals(calculator.calculate(routes, "A", "D", 10d, 0d), null);
 	}
+	
+	@Test
+	public void shouldNotCalculateRouteByDestinationInvalid() {		
+		assertEquals(calculator.calculate(routes, "A", "Z", 10d, 0d), null);
+	}
 }
