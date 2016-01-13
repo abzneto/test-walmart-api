@@ -24,6 +24,10 @@ public class TomcatLauncher {
 	}
 
 	private static String getWebPort() {
-		return "8080";
+		String webPort = System.getenv("PORT");
+		if(webPort == null || webPort.equals("")) {
+			webPort = "8080";
+		}
+		return webPort;
 	}
 }
