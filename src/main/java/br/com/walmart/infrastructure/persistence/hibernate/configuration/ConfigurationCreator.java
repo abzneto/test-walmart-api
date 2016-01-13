@@ -2,15 +2,8 @@ package br.com.walmart.infrastructure.persistence.hibernate.configuration;
 
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.Entity;
-
-import net.sf.trugger.scan.ClassScan;
-import net.sf.trugger.scan.PackageScan;
-import net.sf.trugger.scan.ScanLevel;
 
 import org.apache.log4j.Logger;
 import org.hibernate.cfg.Configuration;
@@ -18,6 +11,8 @@ import org.hibernate.cfg.Configuration;
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.ioc.ComponentFactory;
+import br.com.walmart.domain.model.map.Map;
+import br.com.walmart.domain.model.route.Route;
 
 @Component
 @ApplicationScoped
@@ -52,16 +47,9 @@ public class ConfigurationCreator implements ComponentFactory<Configuration> {
 	}
 
 	private void configureHibernateEntities() {
-		Set<Class<?>> classes = new HashSet<Class<?>>();
-		PackageScan packageScan = new PackageScan("br.com.walmart", ScanLevel.SUBPACKAGES);
-		classes.addAll(ClassScan.findAll().annotatedWith(Entity.class).in(packageScan));
-
 		LOGGER.info("Configuring Hibernate Entities:");
-		for(@SuppressWarnings("rawtypes")
-		Class cclass : classes) {
-			LOGGER.info(cclass.toString());
-			cfg.addAnnotatedClass(cclass);
-		}
+		cfg.addAnnotatedClass(Route.class);
+		cfg.addAnnotatedClass(Map.class);
 	}
 
 	@Override
