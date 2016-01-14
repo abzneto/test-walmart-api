@@ -124,13 +124,6 @@
   </profiles>
       
         <dependencies>
- <dependency>
-    <groupId>trugger</groupId>
-    <artifactId>trugger</artifactId>
-    <version>2.6.0</version>
-    <scope>system</scope>
-    <systemPath>${project.basedir}/repo/trugger-2.6.0.jar</systemPath>
-</dependency>
 
     <dependency>
   	  <groupId>br.com.caelum</groupId>

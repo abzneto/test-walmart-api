@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Walmart API - Serviços REST</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="media/css/restdown.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+</head>
+<body>
+<div id="header">
+    <h1>Walmart API - Serviços REST Documentation</h1>
+</div>
+
+    <div id="sidebar">
+<ul>
+
+  <li>
+  <div><a href="#map">Map</a></div>
+  
+  <ul>
+    <li><div><a href="#GET-/map"><span class="method justendpoint"><span class="endpoint"><span class="verb">GET</span> <span class="path">/map</span></span></a></div></li>
+    <li><div><a href="#POST-/map"><span class="method justendpoint"><span class="endpoint"><span class="verb">POST</span> <span class="path">/map</span></span></a></div></li>
+    <li><div><a href="#DELETE-/map"><span class="method justendpoint"><span class="endpoint"><span class="verb">DELETE</span> <span class="path">/map/{mapId}</span></span></a></div></li>
+    <li><div><a href="#GET-/calculate"><span class="method justendpoint"><span class="endpoint"><span class="verb">GET</span> <span class="path">/map/{mapId}/calculate</span></span></a></div></li>
+  </ul>
+  
+  </li>
+  
+  <li>
+  <div><a href="#route">Route</a></div>
+  
+  <ul>
+    <li><div><a href="#GET-/route"><span class="method justendpoint"><span class="endpoint"><span class="verb">GET</span> <span class="path">/route/{mapId}</span></span></a></div></li>
+    <li><div><a href="#POST-/route"><span class="method justendpoint"><span class="endpoint"><span class="verb">POST</span> <span class="path">/route</span></span></a></div></li>
+    <li><div><a href="#DELETE-/route"><span class="method justendpoint"><span class="endpoint"><span class="verb">DELETE</span> <span class="path">/route/{routeId}</span></span></a></div></li>
+  </ul>
+  
+  </li>
+  
+</ul>
+
+    </div>
+    <div id="content">
+
+<h1>Walmart Rest Services</h1>
+<div class="intro">
+
+<p>Os serviços utilizam JSON como formato para intercâmbio de dados. 
+Por isso, todas as requisições devem dizer que estão esperando um JSON de resposta. 
+Para fazer isso é necessário adicionar o seguinte HEADER HTTP no momento da requisição: <code>Accept</code>=<code>application/json</code></p>
+
+</div>
+
+<h1 id="map">Map</h1>
+
+<h2 id="GET-/map"><span class="method justendpoint"><span class="endpoint"><span class="verb">GET</span> <span class="path">/map</span></span></h2>
+
+<p>Utilizado para carregar os mapas cadastrado.</p>
+
+<h3 id="exemplo-retorno">exemplo de retorno</h3>
+
+<pre><code>{"maps":[{"id":35,"name":"teste","creationDate":"2016-01-13T19:10:50.019Z"}]}</code></pre>
+
+<h2 id="POST-/map"><span class="method justendpoint"><span class="endpoint"><span class="verb">POST</span> <span class="path">/map</span></span></h2>
+
+<p>Utilizado para cadastrar um novo mapa ou atualizar o nome de um mapa já existente.</p>
+
+<h3 id="exemplo-entrada">exemplo de entrada</h3>
+
+<pre><code>/map?mapId=&mapName=teste</code></pre>
+
+<h3 id="exemplo-retorno">exemplo de retorno</h3>
+
+<pre><code>{"mapId":36}</code></pre>
+
+<h2 id="DELETE-/map"><span class="method justendpoint"><span class="endpoint"><span class="verb">DELETE</span> <span class="path">/map/{mapId}</span></span></h2>
+
+<p>Utilizado para remover um mapa cadastrado.</p>
+
+<h3 id="exemplo-entrada">exemplo de entrada</h3>
+
+<pre><code>/map/36</code></pre>
+
+<h3 id="exemplo-retorno">exemplo de retorno</h3>
+
+<pre><code>{"success":true}</code></pre>
+
+<h2 id="GET-/calculate"><span class="method justendpoint"><span class="endpoint"><span class="verb">GET</span> <span class="path">/map/{mapId}/calculate</span></span></h2>
+
+<p>Utilizado para calcular o menor caminho e custo a partir de uma origem e destino com base nas rotas cadastradas utilizando o algoritmo Dijkstra.</p>
+
+<h3 id="exemplo-entrada">exemplo de entrada</h3>
+
+<pre><code>/map/36/calculate?origin=A&destination=B&autonomy=10&valueLiter=2.5</code></pre>
+
+<h3 id="exemplo-retorno">exemplo de retorno</h3>
+
+<pre><code>{"results":{"path":"A -\u003e B","costFormatted":"2.50","cost":2.5}}</code></pre>
+
+<h1 id="route">Route</h1>
+
+<h2 id="GET-/route"><span class="method justendpoint"><span class="endpoint"><span class="verb">GET</span> <span class="path">/route/{mapId}</span></span></h2>
+
+<p>Utilizado para carregar as informações das rotas de um mapa.</p>
+
+<h3 id="exemplo-entrada">exemplo de entrada</h3>
+
+<pre><code>/route/36</code></pre>
+
+<h3 id="exemplo-retorno">exemplo de retorno</h3>
+
+<pre><code>{"routes":[{"id":25,"origin":"A","destination":"B","distance":10.0,"creationDate":"2016-01-14T13:24:18.634Z","map":{"id":36,"name":"teste","creationDate":"2016-01-14T13:24:18.083Z"}}]}</code></pre>
+
+<h2 id="POST-/route"><span class="method justendpoint"><span class="endpoint"><span class="verb">POST</span> <span class="path">/route</span></span></h2>
+
+<p>Utilizado para cadastrar uma nova rota ao mapa OU atualizar os dados de uma rota existente.</p>
+
+<h3 id="exemplo-entrada">exemplo de entrada</h3>
+
+<pre><code>{"routes": [{"origin":"A","destination":"B","distance":"10"}] }</code></pre>
+
+<h3 id="exemplo-retorno">exemplo de retorno</h3>
+
+<pre><code>{"success":true}</code></pre>
+
+<h2 id="DELETE-/route"><span class="method justendpoint"><span class="endpoint"><span class="verb">DELETE</span> <span class="path">/route/{routeId}</span></span></h2>
+
+<p>Utilizado para remover uma rota do mapa.</p>
+
+<h3 id="exemplo-entrada">exemplo de entrada</h3>
+
+<pre><code>/route/25</code></pre>
+
+<h3 id="exemplo-retorno">exemplo de retorno</h3>
+
+<pre><code>{"success":true}</code></pre>
+
+    </div>
+<script type="text/javascript" charset="utf-8">
+$(function() {
+    var headerHeight = $("#header").height();
+
+    var sections = $("#content h1[id], #content h2[id]");
+    var sectionOffsets = [];
+    var slack = 100;  // Give the section scroll some slack (in pixels).
+    sections.each(function(elem) {
+        sectionOffsets.push($(this).offset().top - headerHeight - slack);
+    });
+
+    var currSectionIdx = -1;
+    function getSectionIdx(scrollDistance) {
+        if (scrollDistance < sectionOffsets[0]) {
+            return -1;
+        } else {
+            for (var id = sectionOffsets.length; id > 0; id--) {
+                if (scrollDistance > sectionOffsets[id - 1]) {
+                    return id - 1;
+                    break;
+                }
+            }
+        }
+    }
+
+    /** {{{ http://code.activestate.com/recipes/577787/ (r2) */
+    _slugify_strip_re = /[^\w\s-]/g;
+    _slugify_hyphenate_re = /[-\s]+/g;
+    function slugify(s) {
+      s = s.replace(_slugify_strip_re, '').trim().toLowerCase();
+      s = s.replace(_slugify_hyphenate_re, '-');
+      return s;
+    }
+    /** end of http://code.activestate.com/recipes/577787/ }}} */
+
+    /* See <https://github.com/trentm/restdown/issues/11>. */
+    function safechars(s) {
+      return s.replace(_slugify_strip_re, '');
+    }
+
+    $("#content").scroll(function() {
+        var scrollDistance = $("#content").scrollTop();
+        var sectionIdx = getSectionIdx(scrollDistance);
+
+        if (sectionIdx !== currSectionIdx) {
+            $("#sidebar li>div").removeClass("current");
+            currSectionIdx = sectionIdx;
+            if (currSectionIdx >= 0) {
+                var heading = $(sections[currSectionIdx]).text();
+                var possibleAnchors = [
+                    slugify(heading), // h1 or non-method h2
+                    heading.replace(/ /g, '-'), // h2 method, just name or just endpoint
+                    heading.slice(0, heading.lastIndexOf(' (')).trimRight().replace(/ /g, '-'), // h2 method, name and endpoint
+                ];
+                for (var i=0; i < possibleAnchors.length; i++) {
+                    var anchor = safechars(possibleAnchors[i]);
+                    try {
+                        $("#sidebar a[href=#" + anchor + "]").parent().addClass("current");
+                    } catch (e) {
+                        /* Ignore error if no such element. */
+                        console.log(e)
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+
+</body>
+</html>
